@@ -20,6 +20,19 @@ db_id: 0.7
 
 db_query_cov: 0.9
 
+# LCA (Lowest Common Ancestor) resolution parameters
+# max_accepts: Maximum number of hits to accept (0 = unlimited, captures all equally good hits)
+max_accepts: 0
+
+# max_rejects: Maximum number of non-matching targets to consider before stopping
+max_rejects: 32
+
+# lca_threshold: Apply LCA if top hits are within this percent identity difference
+# 0.0 = only exact ties (same percent identity)
+# 0.5 = hits within 0.5% of best hit
+# 1.0 = hits within 1% of best hit
+lca_threshold: 0.0
+
 enable_optional_taxonomy_format: true
 
 

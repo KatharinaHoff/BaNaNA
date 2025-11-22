@@ -211,9 +211,11 @@ rule taxonomy:
 	params:
 		db = config["db_location"],
 		ident = config["db_id"],
-		cov = config["db_query_cov"]
+		cov = config["db_query_cov"],
+		maxaccepts = config.get("max_accepts", 0),
+		maxrejects = config.get("max_rejects", 32)
 	shell:
-		"vsearch --usearch_global {input} --db {params.db} --id {params.ident} --threads {threads} --blast6out {output}  --query_cov {params.cov}"
+		"vsearch --usearch_global {input} --db {params.db} --id {params.ident} --threads {threads} --blast6out {output} --query_cov {params.cov} --maxaccepts {params.maxaccepts} --maxrejects {params.maxrejects} --top_hits_only"
 
 
 rule taxonomy_table:
@@ -223,8 +225,10 @@ rule taxonomy_table:
 		"samples/final/taxonomy_table.tsv"
 	conda:
 		"envs/python.yaml"
+	params:
+		lca_threshold = config.get("lca_threshold", 0.0)
 	shell:
-		"scripts/get_taxonomy_table.py -i {input} -o {output}"
+		"scripts/lca_taxonomy_table.py -i {input} -o {output} --lca-threshold {params.lca_threshold}"
 
 
 rule abundance:
